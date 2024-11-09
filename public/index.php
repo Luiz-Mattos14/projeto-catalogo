@@ -1,5 +1,9 @@
 <?php
+session_start(); // Inicia sessão php
 
-phpinfo();
+require '../vendor/autoload.php'; // Caminho para o autoload
+require 'config.php'; // Caminho para o config (database)
 
-echo "Hello World!";
+$core = new Core\Core();
+$core->run();
+?>
