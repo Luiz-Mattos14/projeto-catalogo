@@ -1,20 +1,13 @@
 {
-  "name": "meu-usuario/meu-projeto",
-  "description": "Projeto acadêmico de um catálogo",
-  "type": "project",
-  "require": {
-    "php": "^8.3",
-    "monolog/monolog": "^2.3"
-  },
-  "autoload": {
-    "psr-4": {
-      "Controllers\\": "public/Controllers/",
-      "Models\\": "public/Models/",
-      "Core\\": "public/Core/"
-    }
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "preferred-install": "dist"
-  }
+	"require": {
+		"dompdf/dompdf": "1.0.1"
+	},
+	"autoload":{
+		"psr-4":{
+			"Controllers\\":"Controllers/",
+			"Models\\":"Models/",
+			"Core\\":"Core/"
+		}
+	}
+
 }
