@@ -12,21 +12,11 @@ class HomeController extends Controller {
    public function index() {
       $products = new Products();
 
-      $pagination = 1;
-      if(isset($_GET['pagina'])) $pagination = filter_input(INPUT_GET, 'pagina', FILTER_VALIDATE_INT);
-      if(!$pagination) $pagination = 1;
-
-      $limit = 20;
-      $start = ($pagination * $limit) - $limit;
-
       //GET DOS PRODUTOS
-      $item = $products->getProductAll($start, $limit);
-      //GET DOS PRODUTOS
-      $item = $products->getProductAll($start, $limit);
+      $item = $products->getProductAll();
       
       $dados = array (
-         'products' => $item,
-         'nome' => 'Luiz'
+        'products' => $item,
       );
 
 		$this->loadTemplate('pages/home', $dados);

@@ -11,7 +11,7 @@ class Core {
 		}
 
     // Adicione um echo aqui para verificar a URL
-    echo 'URL completa: ' . $url . '<br>';
+    // echo 'URL completa: ' . $url . '<br>';
 
 		$params = array();
 

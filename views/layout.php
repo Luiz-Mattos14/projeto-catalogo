@@ -16,7 +16,6 @@ $template = $body[2];
 
 <body class="page-<?php echo $template ?>" data-page="page-<?php echo $template ?>">
    <main>
-      <h1>Projeto - Catalogo</h1>
       <?php $this->loadViewInTemplate($viewName, $viewData); ?>
    </main>
 </body>
