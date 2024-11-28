@@ -26,34 +26,29 @@ class ProductController extends Controller {
   }
 
   public function add_action() {
-		if(!empty($_POST['name'])) {
-
+    if (!empty($_POST['name'])) {
+      $cod_prod = $_POST['cod_produto'];
       $name = $_POST['name'];
       $category = $_POST['category'];
       $preco = $_POST['price'];
-      // $status = $_POST['status'];
 
-      $images = (!empty($_FILES['images']))?$_FILES['images']:array();
+      $images = (!empty($_FILES['images'])) ? $_FILES['images'] : array();
 
-      // echo "<pre>";
-			// var_dump('imagem', $images);
-			// echo "</pre>";
-
-      if(!empty($name)) {
+      if (!empty($cod_prod) && !empty($name) && !empty($category)) {
         $products = new Products();
 
-        $result = $products->createProduct($name, $category, $preco, $images);
+        // Criar o produto com o preço formatado
+        $result = $products->createProduct($cod_prod, $name, $category, $preco, $images);
       } else {
-				header("Location: ".BASE_URL."home");
+        header("Location: " . BASE_URL . "home");
         exit;
-			}
+      }
 
-      header("Location: ".BASE_URL."home");
+      header("Location: " . BASE_URL . "home");
       exit;
-
     } else {
-      header("Location: ".BASE_URL."home");
-      exit;
+        header("Location: " . BASE_URL . "home");
+        exit;
     }
   }
 
@@ -72,6 +67,7 @@ class ProductController extends Controller {
   public function edit_action() {
     if(!empty($_POST['id'])){
       $id = $_POST['id'];
+      $cod_prod = $_POST['cod_produto'];
       $name = $_POST['name'];
       $category = $_POST['category'];
       $price = $_POST['price'];
@@ -89,7 +85,7 @@ class ProductController extends Controller {
       if(!empty($name)) {
         $products = new Products();
 
-        $products->editProduct($id, $name, $category, $price,  $images);
+        $products->editProduct($id, $cod_prod, $name, $category, $price,  $images);
       }
     }
   }
@@ -116,7 +112,7 @@ class ProductController extends Controller {
   public function multiple_products() {
     // Definir os dados base para o produto
     $baseProduct = [
-      'category' => 'Categoria ',
+      'category' => ['Categoria 1', 'Categoria 2', 'Categoria 3'],
       'preco' => 100.00,
     ];
 
@@ -124,7 +120,7 @@ class ProductController extends Controller {
     $productsAll = [];
     for ($i = 1; $i <= 10; $i++) {
       // Caminho da imagem na pasta assets/media
-      $imageName = 'image-' . $i . '.jpg';  // Alterar para .png se necessário
+      $imageName = 'image-' . $i . '.jpg'; 
       $imagePath = 'assets/media/' . $imageName;
 
       // Verificar se o arquivo existe
@@ -137,19 +133,19 @@ class ProductController extends Controller {
         $error = 0;
         $size = filesize($imagePath);
 
-        // Simulando o array $_FILES
         $simulatedFiles = [
-          'name' => [$imageName],
-          'type' => [$type],
-          'tmp_name' => [$tmp_name],
+            'name' => [$imageName],
+            'type' => [$type],
+            'tmp_name' => [$tmp_name],
           'error' => [$error],
           'size' => [$size]
         ];
 
         // Adicionando o produto com o caminho correto para a imagem
         $productsAll[] = [
+            'cod_produto' => 'COD' . str_pad($i, 3, '0', STR_PAD_LEFT), // Código do produto
           'name' => 'Produto ' . $i,
-          'category' => $baseProduct['category'] . $i,
+          'category' => $baseProduct['category'][($i - 1) % 3], // Alterna entre as categorias
           'preco' => $baseProduct['preco'] * $i,
           'images' => $simulatedFiles
         ];
@@ -162,8 +158,7 @@ class ProductController extends Controller {
     // Chama o Model para criar os produtos no banco de dados
     $products = new Products();
     foreach ($productsAll as $product) {
-      // Chama o método de criação do produto, que já processa as imagens corretamente
-      $products->createProduct($product['name'], $product['category'], $product['preco'], $product['images']);
+      $products->createProduct($product['cod_produto'], $product['name'], $product['category'], $product['preco'], $product['images']);
     }
 
     header("Location: " . BASE_URL . "home");

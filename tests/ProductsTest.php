@@ -1,6 +1,11 @@
 <?php
+  /*================================================*/
+  /*FUNÇÃO DOS TESTE   */
+  /*==============================================*/
+  /* comando para rodar o teste no terminal na pasta raiz do projeto */
+  /* ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ProductsTest.php */
 
-require_once __DIR__ . '/../config.php'; // Ajuste o caminho conforme necessário
+require_once __DIR__ . '/../config.php';
 
 use PHPUnit\Framework\TestCase;
 use Models\Products;
@@ -22,8 +27,8 @@ class ProductsTest extends TestCase {
 
     // Simula a função fetchAll retornando produtos
     $mock->method('fetchAll')->willReturn([
-      ['id' => 1, 'name' => 'Produto 1', 'categoria' => 'Categoria 1', 'preco' => 50.0],
-      ['id' => 2, 'name' => 'Produto 2', 'categoria' => 'Categoria 2', 'preco' => 60.0]
+      ['id' => 1, 'cod_produto' => 'COD001', 'name' => 'Produto 1', 'categoria' => 'Categoria 1', 'preco' => 50.0],
+      ['id' => 2, 'cod_produto' => 'COD002', 'name' => 'Produto 2', 'categoria' => 'Categoria 2', 'preco' => 60.0]
     ]);
 
     // Simula a função rowCount para retornar que há 2 produtos
@@ -32,6 +37,7 @@ class ProductsTest extends TestCase {
     // // Simula a função fetch para o produto individual
     $mock->method('fetch')->willReturn([
       'id' => 1,
+      'cod_produto' => 'COD001',
       'name' => 'Produto Teste',
       'categoria' => 'Categoria Teste',
       'preco' => 99.99
@@ -46,7 +52,7 @@ class ProductsTest extends TestCase {
 
     // Inicializando a classe Products
     $this->products = $this->getMockBuilder(Products::class)
-      ->onlyMethods(['deleteProductImage', 'addProductImage'])
+      ->onlyMethods(['deleteImageByID', 'addProductImage'])
       ->getMock();
 
     // Usando Reflection para injetar o mock do PDO no objeto Products
@@ -64,6 +70,7 @@ class ProductsTest extends TestCase {
 
   // Teste para criar um produto
   public function testCreateProduct(): void {
+    $codProduto = "COD001";
     $name = "Produto Teste";
     $category = "Categoria Teste";
     $price = 99.99;
@@ -76,13 +83,13 @@ class ProductsTest extends TestCase {
     ];
 
     // Executa o método createProduct
-    $this->products->createProduct($name, $category, $price, $images);
+    $this->products->createProduct($codProduto, $name, $category, $price, $images);
 
     // Verifica se o produto foi adicionado corretamente
     $product = $this->products->getProduct(1);
 
     //print_r($product);
-
+    $this->assertEquals($codProduto, $product['cod_produto']);
     $this->assertEquals($name, $product['name']);
     $this->assertEquals($category, $product['categoria']);
     $this->assertEquals($price, $product['preco']);
@@ -102,6 +109,8 @@ class ProductsTest extends TestCase {
     //print_r($products);
 
     // Verifica se os dados dos produtos estão corretos
+    $this->assertEquals('COD001', $products[0]['cod_produto']);
+    $this->assertEquals('COD002', $products[1]['cod_produto']);
     $this->assertEquals('Produto 1', $products[0]['name']);
     $this->assertEquals('Produto 2', $products[1]['name']);
 
@@ -121,6 +130,7 @@ class ProductsTest extends TestCase {
     // Verifica se o produto retornado está correto
     $this->assertIsArray($product); 
     $this->assertEquals($productId, $product['id']); 
+    $this->assertEquals('COD001', $product['cod_produto']);
     $this->assertEquals('Produto Teste', $product['name']); 
     $this->assertEquals('Categoria Teste', $product['categoria']);
     $this->assertEquals(99.99, $product['preco']);
@@ -132,6 +142,7 @@ class ProductsTest extends TestCase {
   // Teste para editar o produtos
   public function testEditProduct(): void {
     $id = 1;
+    $codProduto = "COD001"; 
     $newName = "Produto Editado";
     $newCategory = "Categoria Editada";
     $newPrice = 10.0;
@@ -144,12 +155,13 @@ class ProductsTest extends TestCase {
     ];
 
     // Executa a função editProduct e captura o retorno
-    $result = $this->products->editProduct($id, $newName, $newCategory, $newPrice, $images);
+    $result = $this->products->editProduct($id,  $codProduto, $newName, $newCategory, $newPrice, $images);
 
-    //print_r($result);
+    print_r($result);
 
     // Verifica se os dados do produto foram atualizados corretamente
     $this->assertEquals($newName, $result['name']);
+    $this->assertEquals($codProduto, $result['cod_produto']); 
     $this->assertEquals($newCategory, $result['categoria']);
     $this->assertEquals($newPrice, $result['preco']);
 

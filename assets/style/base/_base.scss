@@ -1,0 +1,92 @@
+html {
+  font-size: 62.5%; // 1rem = 10px
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+body {
+  font-family: var(--font-family-base) !important;
+  letter-spacing: 0.35px;
+  overflow-x: hidden;
+}
+
+main {
+  min-height: 50vh;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 2.4rem;
+  color: var(--blue);
+  text-align: center;
+  line-height: 2rem;
+  text-transform: uppercase;
+  margin-top: 2.4rem;
+  margin-bottom: 4rem;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
+  transition: all ease-in-out 0.25s;
+}
+
+input {
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  border: none;
+  transition: all ease-in-out 0.25s;
+}
+
+.container {
+  @extend %container;
+}
+
+.section {
+  margin-bottom: 8rem;
+}
+
+.icon {
+  color: currentColor;
+  height: 1.8rem;
+  width: 1.8rem;
+
+  @include media("md") {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+}
+
+.top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.top .link {
+  height: 3.2rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  border: 1px solid var(--gray-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  background: var(--white);
+  font-size: 1.2rem;
+  width: 10rem;
+  transition: all linear 0.25s;
+
+  @include media("md") {
+    width: 12.4rem;
+
+    &:hover {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+    }
+  }
+}

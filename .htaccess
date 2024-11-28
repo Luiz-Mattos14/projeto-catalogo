@@ -1,14 +1,21 @@
+# Configurações de PHP
 php_value max_execution_time 7200
 php_value max_input_time 7200
 php_value memory_limit 2G
 php_value post_max_size 1G
 php_value upload_max_filesize 1G
 
-Header set Access-Control-Allow-Origin *
-Header set Access-Control-Allow-Headers *
+# Permitir CORS
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Headers "*"
 
+# Ativar mecanismo de reescrita
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /projeto-catalogo/index.php?url=$1 [QSA,L]
 
+# Permitir acesso direto a arquivos existentes
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirecionar todas as outras requisições para o index.php
+RewriteRule ^(.*)$ /projeto-catalogo/index.php?url=$1 [QSA,L]

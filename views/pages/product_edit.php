@@ -1,37 +1,62 @@
-<h1>EDITAR PRODUTO</h1>
+<section class="header container">
+  <h1>EDITAR PRODUTO</h1>
+</section>
 
-<?php echo $item['id']; ?>
 
-</br>
-
-<form action="<?php echo BASE_URL; ?>product/edit_action" method="POST" enctype="multipart/form-data">
-<input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-
-  <label for="name">Nome:</label>
-  <input type="text" name="name" value="<?php echo $item['name']; ?>"><br>
-
-  <label for="category">Categoria:</label>
-  <select name="category" >
-    <option value="<?php echo $item['categoria']; ?>"><?php echo $item['categoria']; ?></option>
-    <option value="Eletrônicos">Eletrônicos</option>
-    <option value="Vestuário">Vestuário</option>
-    <option value="Alimentos">Alimentos</option>
-  </select><br>
-
-  <label for="price">Preço:</label>
-  <input type="number" step="0.01" name="price" value="<?php echo $item['preco']; ?>"><br>
-
-  <?php if (isset($item['imagem'][0])): ?>
-    <img src="<?php echo BASE_URL; ?>media/products/<?php echo $item['imagem'][0]['url']; ?>" alt="" width="50">
-  <?php endif; ?>
-  <label for="images">Imagem do Produto</label></br>
-  <input type="file" name="images[]" multiple> <!-- multiple permite selecionar várias imagens -->
-
-  <button type="submit">Editar produto</button>
-</form>
-
-<?php if (!empty($msg)): ?>
-  <div class="msg msg-active">
-    <p><?php echo $msg; ?></p>
+<section class="section list-products container">
+  <div class="top">
+    <a class="link" href="<?php echo BASE_URL; ?>home">Voltar</a>
   </div>
-<?php endif; ?>
+
+  <div class="list-wrapper">
+    <form class="form-wrapper" action="<?php echo BASE_URL; ?>product/edit_action" method="POST" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+
+        <label class="label col-md" for="cod_produto">
+          <span>Referência*</span>
+          <input class="input" type="text" name="cod_produto" value="<?php echo $item['cod_produto']; ?>" placeholder="Digite aqui..." required maxlength="10">
+        </label>
+
+        <label class="label col-md" for="name">
+          <span>Nome*</span>
+          <input class="input" type="text" name="name" value="<?php echo $item['name']; ?>"  placeholder="Digite aqui..." required maxlength="100">
+        </label>  
+
+        <label class="label col-md" for="category">
+          <span>Categoria*</span>
+          <select class="select" name="category" required>
+            <option value="<?php echo $item['categoria']; ?>"><?php echo $item['categoria']; ?></option>
+            <option value="Categoria 1">Categoria 1</option>
+            <option value="Categoria 2">Categoria 2</option>
+            <option value="Categoria 3">Categoria 3</option>
+          </select>
+        </label>
+
+
+        <label class="label" for="price" required>
+          <span>Preço*</span>
+          <input class="input" type="text" name="price" value="<?php echo $item['preco']; ?>" placeholder="Digite aqui..." required data-price maxlength="10">
+        </label>
+
+        <label class="label -image" for="image" data-image-form>
+          <svg class="icon"><use xlink:href="#icon-image" /></svg>
+          <h4>Arraste ou clique aqui</h4>
+          <input type="file" name="images[]" id="image" accept="image/*" multiple />
+
+          <div class="image-preview-container">
+            <img class="image-preview" src="<?php echo BASE_URL; ?>media/products/<?php echo $item['imagem'][0]['url']; ?>" alt="Imagem selecionada" style="max-width: 100%; margin-top: 10px;"/>
+          </div>
+        </label>
+
+        <button class="btn" type="submit">Cadastrar Produto</button>
+      </fieldset>
+    </form>
+
+    <?php if (!empty($msg)): ?>
+      <div class="msg msg-active">
+        <p><?php echo $msg; ?></p>
+      </div>
+    <?php endif; ?>
+  </div>
+</section>

@@ -9,7 +9,7 @@ class Products extends Model {
   /*==============================================*/
 
   public function getProductAll() {
-    $sql = "SELECT * FROM tb_produtos ORDER BY categoria ASC";
+    $sql = "SELECT * FROM tb_produtos ORDER BY id ASC";
     $sql = $this->db->query($sql);
 
     if ($sql->rowCount() > 0) {
@@ -46,10 +46,11 @@ class Products extends Model {
     }
   }
 
-  public function createProduct($name, $category, $preco, $images) {
-    $sql = "INSERT INTO tb_produtos (name, categoria, preco) VALUES (:name, :categoria, :preco)";
+  public function createProduct($cod_prod, $name, $category, $preco, $images) {
+    $sql = "INSERT INTO tb_produtos (cod_produto, name, categoria, preco) VALUES (:cod_produto, :name, :categoria, :preco)";
     $sql = $this->db->prepare($sql);
 
+    $sql->bindValue(':cod_produto', $cod_prod);
     $sql->bindValue(':name', $name);
     $sql->bindValue(':categoria', $category);
     $sql->bindValue(':preco', $preco);
@@ -69,11 +70,12 @@ class Products extends Model {
     }
   }
 
-  public function editProduct($id, $name, $category, $price, $images) {
-    if (!empty($id) && !empty($name) && !empty($category) && !empty($price)) {
+  public function editProduct($id, $cod_prod,  $name, $category, $price, $images) {
+    if (!empty($id) && !empty($cod_prod) && !empty($name) && !empty($category) && !empty($price)) {
       // Atualiza os dados do produto
-      $sql = "UPDATE tb_produtos SET name = :name, categoria = :category, preco = :price WHERE id = :id";
+      $sql = "UPDATE tb_produtos SET cod_produto = :cod_produto, name = :name, categoria = :category, preco = :price WHERE id = :id";
       $sql = $this->db->prepare($sql);
+      $sql->bindValue(":cod_produto", $cod_prod);
       $sql->bindValue(":name", $name);
       $sql->bindValue(":category", $category);
       $sql->bindValue(":price", $price);
@@ -104,6 +106,7 @@ class Products extends Model {
       // Retorna o produto atualizado
       return [
         'name' => $name,
+        'cod_produto' => $cod_prod,
         'categoria' => $category,
         'preco' => $price,
       ];
@@ -130,13 +133,6 @@ class Products extends Model {
     $sql = "TRUNCATE TABLE tb_produtos";
     $sql = $this->db->prepare($sql);
     $sql->execute();
-  }
-
-  public function createMultipleProducts($products) {
-    foreach ($products as $product) {
-      // Chama o método do Model para criar cada produto
-      $this->createProduct($product['name'], $product['category'], $product['preco'], $product['images']);
-    }
   }
 
   /*================================================*/
