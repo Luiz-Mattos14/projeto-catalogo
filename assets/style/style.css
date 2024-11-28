@@ -548,6 +548,11 @@ button {
   white-space: nowrap;
   text-align: left;
 }
+.list-products .list-wrapper table .col-lg.name-product {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100px;
+}
 .list-products .list-wrapper table .-hidden {
   display: none;
 }

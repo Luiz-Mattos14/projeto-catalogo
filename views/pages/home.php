@@ -35,7 +35,7 @@
               <td class="col-sm">NO_IMAGE</td>
             <?php endif; ?>
             <td class="col-xs -hidden"><?php echo $product['cod_produto']; ?></td>
-            <td class="col-lg"><?php echo $product['name']; ?></td>
+            <td class="col-lg name-product"><?php echo $product['name']; ?></td>
             <td class="col-md -hidden"><?php echo $product['categoria']; ?></td>
             <td class="col-md -hidden" data-price><?php echo $product['preco']; ?></td>
 
