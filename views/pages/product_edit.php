@@ -36,7 +36,7 @@
 
         <label class="label" for="price" required>
           <span>Preço*</span>
-          <input class="input" type="text" name="price" value="<?php echo $item['preco']; ?>" placeholder="Digite aqui..." required data-price maxlength="10">
+          <input class="input" type="text" name="price" value=" <?php echo 'R$ ' . number_format($item['preco'], 2, ',', '.'); ?>" placeholder="Digite aqui..." required data-price maxlength="10">
         </label>
 
         <label class="label -image" for="image" data-image-form>

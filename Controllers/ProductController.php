@@ -30,7 +30,10 @@ class ProductController extends Controller {
       $cod_prod = $_POST['cod_produto'];
       $name = $_POST['name'];
       $category = $_POST['category'];
-      $preco = $_POST['price'];
+      $price = $_POST['price'];
+
+      // Limpar e formatar o preço
+      $price = $this->formatPrice($price);
 
       $images = (!empty($_FILES['images'])) ? $_FILES['images'] : array();
 
@@ -38,7 +41,7 @@ class ProductController extends Controller {
         $products = new Products();
 
         // Criar o produto com o preço formatado
-        $result = $products->createProduct($cod_prod, $name, $category, $preco, $images);
+        $result = $products->createProduct($cod_prod, $name, $category, $price, $images);
       } else {
         header("Location: " . BASE_URL . "home");
         exit;
@@ -72,22 +75,24 @@ class ProductController extends Controller {
       $category = $_POST['category'];
       $price = $_POST['price'];
 
+      // Limpar e formatar o preço
+      $price = $this->formatPrice($price);
+
       $images = (!empty($_FILES['images']))?$_FILES['images']:array();
 
-
-      echo "<pre>";
-      if(isset($_FILES['images'])) {
-        var_dump($_FILES['images']);
-      }
-
-      echo "</pre>";
 
       if(!empty($name)) {
         $products = new Products();
 
         $products->editProduct($id, $cod_prod, $name, $category, $price,  $images);
       }
+
+      header("Location: " . BASE_URL . "home");
+      exit;
     }
+
+    header("Location: " . BASE_URL . "home");
+    exit;
   }
 
 	public function del($id) {
@@ -165,4 +170,18 @@ class ProductController extends Controller {
     exit;
   }
 
+  // Função para limpar e formatar o preço
+  private function formatPrice($price) {
+    // Remover "R$"
+    $price = str_replace('R$', '', $price);
+    
+    // Remover pontos (separadores de milhar)
+    $price = str_replace('.', '', $price);
+    
+    // Substituir vírgula por ponto (para ser um valor float)
+    $price = str_replace(',', '.', $price);
+    
+    // Converter para float
+    return (float)$price;
+  }
 }
