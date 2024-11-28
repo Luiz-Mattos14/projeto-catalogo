@@ -32,7 +32,9 @@
             <?php if (isset($product['imagem'][0])): ?>
               <td class="col-sm"><img src="<?php echo BASE_URL; ?>media/products/<?php echo $product['imagem'][0]['url']; ?>" alt="" width="50"></td>
             <?php else: ?>
-              <td class="col-sm">NO_IMAGE</td>
+              <td class="col-sm">
+                <img src="<?php echo BASE_URL; ?>assets/placeholder.jpg" alt="" width="50">
+              </td>
             <?php endif; ?>
             <td class="col-xs -hidden"><?php echo $product['cod_produto']; ?></td>
             <td class="col-lg name-product"><?php echo $product['name']; ?></td>
