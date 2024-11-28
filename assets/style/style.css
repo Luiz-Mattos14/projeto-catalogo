@@ -494,6 +494,14 @@ button {
     border-radius: 0 0.8rem 0.8rem 0.8rem;
   }
 }
+.list-products .list-wrapper .count {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.6rem;
+  font-size: 1.4rem;
+  color: var(--blue);
+}
 
 .list-products .list-wrapper table {
   width: 100%;

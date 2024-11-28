@@ -46,6 +46,17 @@ class Products extends Model {
     }
   }
 
+  public function getCountProduct(){
+    $sql = "SELECT COUNT(name) count FROM tb_produtos";
+    $sql = $this->db->query($sql);
+
+    if($sql->rowCount() > 0){
+       $dados = $sql->fetch(\PDO::FETCH_ASSOC);
+
+       return $dados['count'];
+    }
+ }
+
   public function createProduct($cod_prod, $name, $category, $preco, $images) {
     $sql = "INSERT INTO tb_produtos (cod_produto, name, categoria, preco) VALUES (:cod_produto, :name, :categoria, :preco)";
     $sql = $this->db->prepare($sql);

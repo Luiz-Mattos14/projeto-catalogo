@@ -13,10 +13,12 @@ class HomeController extends Controller {
       $products = new Products();
 
       //GET DOS PRODUTOS
+      $count = $products->getCountProduct();
       $item = $products->getProductAll();
       
       $dados = array (
         'products' => $item,
+        'count' => $count
       );
 
 		$this->loadTemplate('pages/home', $dados);

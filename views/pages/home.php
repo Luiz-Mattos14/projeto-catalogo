@@ -4,7 +4,9 @@
 
 <section class="section list-products container">
   <div class="top">
+    <?php if ($count < 12): ?>
     <a class="link" href="<?php echo BASE_URL; ?>product/add">Adicionar</a>
+    <?php endif; ?>
     <a class="link" href="<?php echo BASE_URL; ?>product/clean">Limpar</a>
     <a class="link" href="<?php echo BASE_URL; ?>product/multiple_products">Criar</a>
     <a class="link" href="<?php echo BASE_URL; ?>catalogo/view_catalogo">Catálogo</a>
@@ -55,6 +57,8 @@
         <?php endforeach; ?>
       </tbody>
     </table>
+
+    <div class="count">Quantidade dos Produtos: <?php echo $count; ?></div>
   </div>
 </section>
 

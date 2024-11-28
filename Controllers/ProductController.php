@@ -21,11 +21,18 @@ class ProductController extends Controller {
 
 		$products = new Products();
     $dados['item'] = $products->getProductAll();
+    $count = $products->getCountProduct();
 
-		$this->loadTemplate('pages/product_add', $dados);
+    if($count < 12) {
+      $this->loadTemplate('pages/product_add', $dados);
+    } else {
+      header("Location: " . BASE_URL . "home");
+      exit;
+    }
   }
 
   public function add_action() {
+    
     if (!empty($_POST['name'])) {
       $cod_prod = $_POST['cod_produto'];
       $name = $_POST['name'];
@@ -50,8 +57,8 @@ class ProductController extends Controller {
       header("Location: " . BASE_URL . "home");
       exit;
     } else {
-        header("Location: " . BASE_URL . "home");
-        exit;
+      header("Location: " . BASE_URL . "home");
+      exit;
     }
   }
 
