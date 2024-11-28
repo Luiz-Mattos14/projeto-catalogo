@@ -86,7 +86,13 @@ class ProductController extends Controller {
 
         $products->editProduct($id, $cod_prod, $name, $category, $price,  $images);
       }
+
+      header("Location: " . BASE_URL . "home");
+      exit;
     }
+
+    header("Location: " . BASE_URL . "home");
+    exit;
   }
 
 	public function del($id) {
