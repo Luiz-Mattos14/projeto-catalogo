@@ -7,9 +7,15 @@ use \Models\Products;
 
 class CatalogoController extends Controller {
   /*========================*/
-   /*CONTROLLER HOME*/
-   /*======================*/
-   public function index() {
+  /*CONTROLLER CATALOGO */
+  /*======================*/
+  public function index() {
+
+    header("Location: ".BASE_URL."home");
+    exit;
+  }
+
+  public function view_catalogo() {
     $products = new Products();
 
     //GET DOS PRODUTOS
@@ -19,8 +25,8 @@ class CatalogoController extends Controller {
       'products' => $item,
     );
 
-  $this->loadTemplate('pages/catalogo', $dados);
-}
+    $this->loadTemplate('pages/catalogo', $dados);
+  }
 }
 
 ?>

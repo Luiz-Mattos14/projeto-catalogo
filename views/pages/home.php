@@ -7,7 +7,7 @@
     <a class="link" href="<?php echo BASE_URL; ?>product/add">Adicionar</a>
     <a class="link" href="<?php echo BASE_URL; ?>product/clean">Limpar</a>
     <a class="link" href="<?php echo BASE_URL; ?>product/multiple_products">Criar</a>
-    <a class="link" href="<?php echo BASE_URL; ?>catalogo">Catálogo</a>
+    <a class="link" href="<?php echo BASE_URL; ?>catalogo/view_catalogo">Catálogo</a>
   </div>
 
   <div class="list-wrapper">
@@ -45,7 +45,7 @@
               </a>
             </td>
             <td class="col-xs">
-              <a href="<?php echo BASE_URL.'product/del/'.$product['id']; ?>">
+              <a href="<?php echo BASE_URL.'product/del/'.$product['id']; ?>" onclick="return confirmDelete();">
                 <svg class="icon"><use xlink:href="#icon-del" /></svg>
               </a>
             </td>
@@ -55,4 +55,11 @@
     </table>
   </div>
 </section>
+
+<script>
+  function confirmDelete() {
+    // Exibe um alerta de confirmação
+    return confirm('Tem certeza que deseja deletar este produto?');
+  }
+</script>
 

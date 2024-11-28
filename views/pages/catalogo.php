@@ -1,61 +1,76 @@
-<h1>CATALOGO</h1>
+<!-- HTML -->
+<section class="header container">
+  <h1>CATÁLOGO</h1>
+</section>
 
-<button type='button' class="generate-pdf">Gerar PDF</button>
+<section class="section list-products container">
+  <div class="top">
+    <a class="link" href="<?php echo BASE_URL; ?>home">Voltar</a>
+    <button class="link" type='button' data-button-pdf>Gerar PDF</button>
+  </div>
 
-<div class="content" id="content"> <!-- Adicionada a ID aqui -->
-  <table>
-    <thead>
-      <tr>
-        <td>ID</td>
-        <td>Código Produto</td>
-        <td>Imagem</td>
-        <td>Nome</td>
-        <td>Categoria</td>
-        <td>Preço</td>
-        <td>Editar</td>
-        <td>Excluir</td>
-      </tr>
-    </thead>
-
-    <tbody>
+  <div class="list-wrapper">
+    <div class="content" id="content">
       <?php foreach($products as $product): ?>
-        <tr>
-          <td><?php echo $product['id']; ?></td>
-          <td><?php echo $product['cod_produto']; ?></td>
-          <?php if (isset($product['imagem'][0])): ?>
-            <td><img src="<?php echo BASE_URL; ?>media/products/<?php echo $product['imagem'][0]['url']; ?>" alt="" width="50"></td>
-          <?php else: ?>
-            <td>NO_IMAGE</td>
-          <?php endif; ?>
-          <td><?php echo $product['name']; ?></td>
-          <td><?php echo $product['categoria']; ?></td>
-          <td><?php echo $product['preco']; ?></td>
+        <div class="product-block">
+          <figure class="image">
+            <img src="<?php echo BASE_URL; ?>media/products/<?php echo $product['imagem'][0]['url']; ?>" alt="" srcset="">
+          </figure>
+          <div class="description">
+            <div class="cod-product">
+              <?php echo $product['cod_produto']; ?>
+            </div>
+            <div class="category">
+              <?php echo $product['categoria']; ?>
+            </div>
+            <div class="name">
+              <h3><?php echo $product['name']; ?></h3>
+            </div>
 
-          <td><a href="<?php echo BASE_URL.'product/edit/'.$product['id']; ?>">EDITAR</a></td>
-          <td><a href="<?php echo BASE_URL.'product/del/'.$product['id']; ?>">EXCLUIR</a></td>
-        </tr>
+            <div class="price">
+              <?php echo 'R$ ' . number_format($product['preco'], 2, ',', '.'); ?>
+            </div>
+          </div>
+        </div>
       <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
+    </div>
+  </div>
+</section>
 
+<!-- Script -->
 <script>
-  const button = document.querySelector('.generate-pdf');
+  const button = document.querySelector('[data-button-pdf]');
 
-  if(button) button.addEventListener("click", () => {
-    console.log("clicou");
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
+  if (button) {
+    button.addEventListener("click", () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
 
-    // Captura o HTML e gera o PDF
-    pdf.html(document.getElementById('content'), {
-      callback: function (doc) {
-        doc.save("catalogo.pdf");
-      },
-      x: 10,
-      y: 10
+      // Verifica se o html2canvas está carregado corretamente
+      if (typeof html2canvas === 'undefined') {
+        console.error("html2canvas não foi carregado corretamente.");
+        return;
+      }
+
+      // Usando html2canvas para capturar o conteúdo com o estilo
+      html2canvas(document.getElementById('content'), {
+        useCORS: true, // Garante que imagens externas sejam carregadas corretamente
+        letterRendering: true
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/jpeg');
+
+        // Ajuste a escala do tamanho da imagem para o PDF
+        const pdfWidth = 210; // A largura padrão do A4 em mm
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width; // Mantém a proporção
+
+        // Adiciona a imagem ao PDF
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight); // Ajuste o tamanho conforme necessário
+        
+        // Salva o PDF
+        pdf.save("catalogo.pdf");
+      }).catch((error) => {
+        console.error("Erro ao gerar o PDF:", error);
+      });
     });
-  })
-
-
+  }
 </script>

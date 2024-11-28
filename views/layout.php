@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/style/style.css?v=1">
-    <script type="module" src="<?php echo BASE_URL; ?>assets/javascripts/main.js" ></script>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/style/style.css?v=2">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -23,6 +22,6 @@ $template = $body[2];
    <main>
       <?php $this->loadViewInTemplate($viewName, $viewData); ?>
    </main>
-
+    <script type="module" src="<?php echo BASE_URL; ?>assets/javascripts/main.js" ></script>
 </body>
 </html>

@@ -164,4 +164,5 @@ class ProductController extends Controller {
     header("Location: " . BASE_URL . "home");
     exit;
   }
+
 }
